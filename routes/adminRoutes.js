@@ -5,7 +5,7 @@ const db = require('../db');
 const fs = require('fs');
 const { format } = require('@fast-csv/format');
 
-// 🔐 Middleware to protect admin routes
+
 const isAdmin = (req, res, next) => {
   if (req.session.admin) return next();
   res.send('❌ Unauthorized <a href="/admin-login">Login</a>');
@@ -18,12 +18,12 @@ router.get('/admin-users', isAdmin, (req, res) => {
   });
 });
 
-// 🛡️ Admin login page
+
 router.get('/admin-login', (req, res) => {
   res.sendFile(path.join(__dirname, '../view/admin-login.html'));
 });
 
-// 🧾 Admin login handler
+
 router.post('/admin-login', (req, res) => {
   const { username, password } = req.body;
   db.query('SELECT * FROM admin_users WHERE username = ? AND password = ?', [username, password], (err, result) => {
@@ -34,7 +34,7 @@ router.post('/admin-login', (req, res) => {
   });
 });
 
-// 📋 Admin dashboard - list all users
+
 router.get('/admin-dashboard', isAdmin, (req, res) => {
   db.query('SELECT * FROM users', (err, users) => {
     if (err) throw err;
@@ -73,7 +73,7 @@ router.get('/admin-dashboard', isAdmin, (req, res) => {
   });
 });
 
-// 🗑️ Delete user
+
 router.post('/admin-delete/:id', isAdmin, (req, res) => {
   const userId = req.params.id;
   db.query('DELETE FROM users WHERE id = ?', [userId], err => {
@@ -82,7 +82,7 @@ router.post('/admin-delete/:id', isAdmin, (req, res) => {
   });
 });
 
-// ✏️ Edit user form
+
 router.get('/admin-edit/:id', isAdmin, (req, res) => {
   const userId = req.params.id;
   db.query('SELECT * FROM users WHERE id = ?', [userId], (err, result) => {
@@ -104,7 +104,7 @@ router.get('/admin-edit/:id', isAdmin, (req, res) => {
   });
 });
 
-// 💾 Update user handler
+
 router.post('/admin-update/:id', isAdmin, (req, res) => {
   const userId = req.params.id;
   const { username, email, phone, password } = req.body;
@@ -130,7 +130,7 @@ router.post('/admin-update/:id', isAdmin, (req, res) => {
   }
 });
 
-// 📥 Download users as CSV
+
 router.get('/download-users', isAdmin, (req, res) => {
   db.query('SELECT id, username, email, phone FROM users', (err, users) => {
     if (err) throw err;
