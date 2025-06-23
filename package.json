@@ -1,0 +1,23 @@
+{
+  "name": "node_login",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "fast-csv": "^5.0.2",
+    "mysql2": "^3.14.1",
+    "nodemailer": "^7.0.3",
+    "path": "^0.12.7",
+    "sessions": "^0.0.2-7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
