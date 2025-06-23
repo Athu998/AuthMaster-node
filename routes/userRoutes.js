@@ -4,7 +4,7 @@ const router = express.Router();
 const db = require('../db');
 const nodemailer = require('nodemailer');
 
-// ✅ Nodemailer setup
+
 const transport = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -13,18 +13,18 @@ const transport = nodemailer.createTransport({
   }
 });
 
-// 🔐 Auth middleware
+
 const isAuthenticated = (req, res, next) => {
   if (req.session.user) return next();
   res.sendFile(path.join(__dirname, '../view/unauthorized.html'));
 };
 
-// 📄 Register Page
+
 router.get('/register', (req, res) => {
   res.sendFile(path.join(__dirname, '../view/register.html'));
 });
 
-// ✅ Register Handler with Email
+
 router.post('/register', (req, res) => {
   const { username, password, email, phone } = req.body;
 
@@ -38,7 +38,7 @@ router.post('/register', (req, res) => {
       (err2) => {
         if (err2) throw err2;
 
-        // ✅ Send welcome email
+       
         const mailOptions = {
           from: 'trycoding06@gmail.com',
           to: email,
@@ -59,12 +59,12 @@ router.post('/register', (req, res) => {
   });
 });
 
-// 🔑 Login Page
+
 router.get('/login', (req, res) => {
   res.sendFile(path.join(__dirname, '../view/login.html'));
 });
 
-// 🔐 Login Handler
+
 router.post('/login', (req, res) => {
   const { username, password } = req.body;
 
@@ -77,12 +77,12 @@ router.post('/login', (req, res) => {
   });
 });
 
-// 🧾 Dashboard (protected)
+
 router.get('/dashboard', isAuthenticated, (req, res) => {
   res.sendFile(path.join(__dirname, '../view/dashboard.html'));
 });
 
-// 🚪 Logout
+
 router.get('/logout', (req, res) => {
   req.session.destroy(() => res.redirect('/login'));
 });
